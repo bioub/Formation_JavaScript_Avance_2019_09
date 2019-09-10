@@ -11,7 +11,7 @@ console.log('E');
 // |
 // |st - st - st - st - lg ... cbC ... cbA - cbD ... cbB
 // +---------------------------3-------100-----------200---> temps
-//                      E
+//                      E      C       A     D       B
 
 // file d'attente de callbacks :
 // 0ms : cbC

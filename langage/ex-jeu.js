@@ -20,7 +20,7 @@ function getRandomIntInclusive(min, max) {
 
 const readline = require('readline');
 
-const rl = readline.createInterface(process.stdin, process.stdout);
+
 
 function jouer() {
   if (essais.length) {
@@ -54,7 +54,10 @@ function jouer() {
   });
 }
 
-
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
 const entierAlea = getRandomIntInclusive(0, 100);
 const essais = [];
 jouer();
