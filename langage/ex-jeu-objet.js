@@ -1,7 +1,5 @@
 const random = {
-  get: function () {
-    return Math.random();
-  },
+  get: () => Math.random(),
   getArbitrary: function (min, max) {
     return Math.random() * (max - min) + min;
   },
