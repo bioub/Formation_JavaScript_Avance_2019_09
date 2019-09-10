@@ -1,5 +1,8 @@
 const random = {
-  get: () => Math.random(),
+  // 1 - Method Properties
+  get: function () {
+    return Math.random()
+  },
   getArbitrary: function (min, max) {
     return Math.random() * (max - min) + min;
   },
@@ -17,10 +20,14 @@ const random = {
 
 const readline = require('readline');
 
-function Jeu(options) {
+// 2 - Class
+function Jeu(options /* 3 - Default */) {
   options = options || {};
+
+  // 4 - Destructuring Object / Shortand property / Default value
   const min = options.min || 0;
   const max = options.max !== undefined ? options.max : 100;
+
   this._rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
@@ -31,14 +38,17 @@ function Jeu(options) {
 
 Jeu.prototype.jouer = function jouer() {
   if (this.essais.length) {
-    console.log('Vous avez déjà joué : ' + this.essais.join(' - '));
+    // 5 - Template literal
+    console.log('Vous avez déjà joué : ' + this.essais.join(' - ') + '...');
   }
 
   this._rl.question('Quel est le nombre ? ', (answer) => {
     console.log('Vous avez saisi : ' + answer);
 
+    // 6 - parseInt -> Number.parseInt
     const entierSaisi = parseInt(answer);
 
+    // 6 - isNaN -> Number.isNaN
     if (isNaN(entierSaisi)) {
       console.log('Erreur : il faut saisir un nombre');
       return this.jouer();

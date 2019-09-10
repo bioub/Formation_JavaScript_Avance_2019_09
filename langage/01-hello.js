@@ -3,7 +3,7 @@
  * @param {string} name Le prénom
  */
 function hello(name) {
-  return 'Hello ' + name + '!';
+  return `Hello ${name}!`;
 }
 
 const prenoms = ['Romain', 'Michel'];
