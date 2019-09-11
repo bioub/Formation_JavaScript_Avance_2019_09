@@ -32,4 +32,8 @@ Exercice 2 : Ajouter une checkbox toggle all
 Cocher ou décocher toutes les checkbox
 todoCheckElt.checked = true (pour cocher), false (pour décocher)
 - Utiliser querySelectorAll pour sélectionner les checkboxes au clic
+
+Exercice 3 : Au submit du formulaire
+Vérifier avec une regex que le champs contienne au moins 5 charactères parmi lettre, chiffre, espace
+En cas d'erreur utiliser alert('Erreur') ou écrire dans une balise div l'erreur
 */
