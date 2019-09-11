@@ -1,9 +1,9 @@
 function createButton(contenu) {
   const btnElt = document.createElement('button');
   btnElt.innerText = contenu;
-  btnElt.addEventListener('click', () => {
+  btnElt.addEventListener('click', (event) => {
     console.log(contenu);
-    btnElt.innerText += '.';
+    event.target.innerText += '.';
   });
   document.body.appendChild(btnElt);
 }

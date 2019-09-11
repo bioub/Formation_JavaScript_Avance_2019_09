@@ -38,7 +38,7 @@ console.log(console.log);
 // statique -> basé sur des classes
 // dynamiques -> basé sur des prototypes
 
-console.log(Math.sum);
+console.log(Math.sum); // undefined
 
 // Extension d'objet
 Math.sum = (a, b) => a + b;
@@ -51,6 +51,9 @@ console.log(Math.sum('1', 2)); // 3
 // Supprimer
 delete Math.sum;
 console.log(Math.sum);
+
+// ATTENTION mauvaise pratique d'étendre les objets normés
+// ex: Math, String, Array, Document, process
 
 // Pour créer un objet on peut utiliser la syntaxe
 // Object literal
@@ -114,3 +117,19 @@ console.log(coords4.hasOwnProperty('getType')); // false
 
 const coords5 = new Coords();
 console.log(coords4.getType === coords5.getType); // true
+
+for (let key in coords4) {
+  if (coords4.hasOwnProperty(key)) {
+    const value = coords4[key];
+    console.log(key, value);
+  }
+}
+
+for (let key of Object.keys(coords4)) {
+  const value = coords4[key];
+  console.log(key, value);
+}
+
+for (let [key, value] of Object.entries(coords4)) {
+  console.log(key, value);
+}

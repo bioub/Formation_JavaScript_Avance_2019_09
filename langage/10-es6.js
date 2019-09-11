@@ -71,3 +71,15 @@ console.log(typeof Coords.prototype.getY); // function
 const coords2 = new Coords();
 console.log(coords2.getY()); // 0
 console.log(Coords.getClass()); // Coords
+
+// Object.assign
+
+const cible = {}; // this
+
+const options = { max: 20 };
+
+Object.assign(cible, {min: 0, max: 100}, options);
+console.log(JSON.stringify(cible));
+
+//    { min: undefined      max: 20 }
+const { min: min       = 0, max: max = 100 } = options
