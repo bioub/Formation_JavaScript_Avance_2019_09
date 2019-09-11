@@ -1,19 +1,69 @@
+import { prepend } from "./dom";
+
 /** @type {HTMLFormElement} */
 const todoFormElt = document.querySelector('.todo-form');
 /** @type {HTMLInputElement} */
 const todoInputElt = document.querySelector('.todo-input');
 /** @type {HTMLDivElement} */
 const todoListElt = document.querySelector('.todo-list');
+/** @type {HTMLInputElement} */
+const todoToggleElt = document.querySelector('.todo-toggle');
+/** @type {HTMLDivElement} */
+const todoErrorsElt = document.querySelector('.todo-errors');
 
 todoFormElt.addEventListener('submit', (event) => {
   event.preventDefault();
-  const todoRowElt = document.createElement('div');
-  todoRowElt.innerText = todoInputElt.value;
 
-  if (todoListElt.childElementCount) {
-    todoListElt.insertBefore(todoRowElt, todoListElt.firstElementChild);
-  } else {
-    todoListElt.appendChild(todoRowElt);
+  if (!todoInputElt.value.match(/^[\p{Alphabetic}0-9\s]{5,}$/iu)) {
+    todoErrorsElt.innerText = 'Il faut saisir des lettres, des espaces ou des chiffres uniquement (au moins 5)'
+    return;
+  }
+
+  todoErrorsElt.innerText = '';
+  const todoRowElt = document.createElement('div');
+
+  // todoRowElt.innerHTML = `<input type="checkbox">
+  // <span>${todoInputElt.value}</span>
+  // <button class="todo-remove">-</button>`;
+
+  const checkbox = document.createElement('input');
+  checkbox.type = 'checkbox';
+  checkbox.className = 'todo-complete';
+  todoRowElt.appendChild(checkbox);
+
+  const span = document.createElement('span');
+  span.innerText = todoInputElt.value;
+  todoRowElt.appendChild(span);
+
+  const buttonMoins = document.createElement('button');
+  buttonMoins.className = 'todo-remove';
+  buttonMoins.innerText = '-';
+  todoRowElt.appendChild(buttonMoins);
+
+  // buttonMoins.addEventListener('click', (event) => {
+  //   // event.target.parentNode.parentNode.removeChild(event.target.parentNode);
+  //   // todoListElt.removeChild(todoRowElt);
+  // });
+
+  prepend(todoListElt, todoRowElt);
+});
+
+
+todoListElt.addEventListener('click', (event) => {
+  /** @type {HTMLElement} */
+  const clickedElt = event.target;
+
+  if (clickedElt.classList.contains('todo-remove')) {
+    clickedElt.parentNode.parentNode.removeChild(clickedElt.parentNode);
+  }
+});
+
+todoToggleElt.addEventListener('click', () => {
+  /** @type {NodeListOf<HTMLInputElement>} */
+  const checkboxes = todoListElt.querySelectorAll('.todo-complete');
+
+  for (const checkbox of checkboxes) {
+    checkbox.checked = todoToggleElt.checked;
   }
 });
 
