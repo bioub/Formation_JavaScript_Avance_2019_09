@@ -21,10 +21,18 @@ todoFormElt.addEventListener('submit', (event) => {
   }
 
   todoErrorsElt.innerText = '';
+  // Exercice
+  // Coté client : créer avec axios la requete pour insérer la todo
+  // axios.post(url, todo)
+  // et récupérer la réponse pour l'ajouter au DOM (avec l'id)
+  // Vous pourriez créer un attribut data-id au niveau du bouton moins ou
+  // de la ligne pour la suppression
+
   addTodo({
     text: todoInputElt.value,
     completed: false,
   })
+
 });
 
 
@@ -35,6 +43,11 @@ todoListElt.addEventListener('click', (event) => {
   if (clickedElt.classList.contains('todo-remove')) {
     clickedElt.parentNode.parentNode.removeChild(clickedElt.parentNode);
   }
+
+  // Exercice
+  // Coté client : créer avec axios la requete pour supprimer la todo
+  // axios.delete('http://localhost:3000/api/todos/123')
+
 });
 
 todoToggleElt.addEventListener('click', () => {
