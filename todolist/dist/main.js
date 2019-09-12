@@ -104,7 +104,7 @@ function prepend(parent, child) {
     parent.appendChild(child);
   }
 }
-const TEST = 'TEST';
+var TEST = 'TEST';
 
 /***/ }),
 
@@ -121,40 +121,40 @@ __webpack_require__.r(__webpack_exports__);
 
 /** @type {HTMLFormElement} */
 
-const todoFormElt = document.querySelector('.todo-form');
+var todoFormElt = document.querySelector('.todo-form');
 /** @type {HTMLInputElement} */
 
-const todoInputElt = document.querySelector('.todo-input');
+var todoInputElt = document.querySelector('.todo-input');
 /** @type {HTMLDivElement} */
 
-const todoListElt = document.querySelector('.todo-list');
+var todoListElt = document.querySelector('.todo-list');
 /** @type {HTMLInputElement} */
 
-const todoToggleElt = document.querySelector('.todo-toggle');
+var todoToggleElt = document.querySelector('.todo-toggle');
 /** @type {HTMLDivElement} */
 
-const todoErrorsElt = document.querySelector('.todo-errors');
-todoFormElt.addEventListener('submit', event => {
+var todoErrorsElt = document.querySelector('.todo-errors');
+todoFormElt.addEventListener('submit', function (event) {
   event.preventDefault();
 
-  if (!todoInputElt.value.match(/^[\p{Alphabetic}0-9\s]{5,}$/iu)) {
+  if (!todoInputElt.value.match(/^[\t-\r Aa-cehilpt\{\}\xA0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000\uFEFF]{5,}$/i)) {
     todoErrorsElt.innerText = 'Il faut saisir des lettres, des espaces ou des chiffres uniquement (au moins 5)';
     return;
   }
 
   todoErrorsElt.innerText = '';
-  const todoRowElt = document.createElement('div'); // todoRowElt.innerHTML = `<input type="checkbox">
+  var todoRowElt = document.createElement('div'); // todoRowElt.innerHTML = `<input type="checkbox">
   // <span>${todoInputElt.value}</span>
   // <button class="todo-remove">-</button>`;
 
-  const checkbox = document.createElement('input');
+  var checkbox = document.createElement('input');
   checkbox.type = 'checkbox';
   checkbox.className = 'todo-complete';
   todoRowElt.appendChild(checkbox);
-  const span = document.createElement('span');
+  var span = document.createElement('span');
   span.innerText = todoInputElt.value;
   todoRowElt.appendChild(span);
-  const buttonMoins = document.createElement('button');
+  var buttonMoins = document.createElement('button');
   buttonMoins.className = 'todo-remove';
   buttonMoins.innerText = '-';
   todoRowElt.appendChild(buttonMoins); // buttonMoins.addEventListener('click', (event) => {
@@ -164,20 +164,39 @@ todoFormElt.addEventListener('submit', event => {
 
   Object(_dom__WEBPACK_IMPORTED_MODULE_0__["prepend"])(todoListElt, todoRowElt);
 });
-todoListElt.addEventListener('click', event => {
+todoListElt.addEventListener('click', function (event) {
   /** @type {HTMLElement} */
-  const clickedElt = event.target;
+  var clickedElt = event.target;
 
   if (clickedElt.classList.contains('todo-remove')) {
     clickedElt.parentNode.parentNode.removeChild(clickedElt.parentNode);
   }
 });
-todoToggleElt.addEventListener('click', () => {
+todoToggleElt.addEventListener('click', function () {
   /** @type {NodeListOf<HTMLInputElement>} */
-  const checkboxes = todoListElt.querySelectorAll('.todo-complete');
+  var checkboxes = todoListElt.querySelectorAll('.todo-complete');
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
 
-  for (const checkbox of checkboxes) {
-    checkbox.checked = todoToggleElt.checked;
+  try {
+    for (var _iterator = checkboxes[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var checkbox = _step.value;
+      checkbox.checked = todoToggleElt.checked;
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return != null) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
   }
 });
 /*

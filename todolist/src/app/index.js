@@ -1,4 +1,5 @@
 import { prepend } from "./dom";
+import axios from 'axios';
 
 /** @type {HTMLFormElement} */
 const todoFormElt = document.querySelector('.todo-form');
@@ -14,38 +15,16 @@ const todoErrorsElt = document.querySelector('.todo-errors');
 todoFormElt.addEventListener('submit', (event) => {
   event.preventDefault();
 
-  if (!todoInputElt.value.match(/^[\p{Alphabetic}0-9\s]{5,}$/iu)) {
+  if (!todoInputElt.value.match(/^[\p{Alphabetic}\s]{5,}$/iu)) {
     todoErrorsElt.innerText = 'Il faut saisir des lettres, des espaces ou des chiffres uniquement (au moins 5)'
     return;
   }
 
   todoErrorsElt.innerText = '';
-  const todoRowElt = document.createElement('div');
-
-  // todoRowElt.innerHTML = `<input type="checkbox">
-  // <span>${todoInputElt.value}</span>
-  // <button class="todo-remove">-</button>`;
-
-  const checkbox = document.createElement('input');
-  checkbox.type = 'checkbox';
-  checkbox.className = 'todo-complete';
-  todoRowElt.appendChild(checkbox);
-
-  const span = document.createElement('span');
-  span.innerText = todoInputElt.value;
-  todoRowElt.appendChild(span);
-
-  const buttonMoins = document.createElement('button');
-  buttonMoins.className = 'todo-remove';
-  buttonMoins.innerText = '-';
-  todoRowElt.appendChild(buttonMoins);
-
-  // buttonMoins.addEventListener('click', (event) => {
-  //   // event.target.parentNode.parentNode.removeChild(event.target.parentNode);
-  //   // todoListElt.removeChild(todoRowElt);
-  // });
-
-  prepend(todoListElt, todoRowElt);
+  addTodo({
+    text: todoInputElt.value,
+    completed: false,
+  })
 });
 
 
@@ -67,23 +46,43 @@ todoToggleElt.addEventListener('click', () => {
   }
 });
 
-/*
-Exercice 1 : Ajouter un bouton de suppression
-- Ajouter un bouton moins avec document.createElement sur la ligne
-- Au clic de ce bouton supprimer la ligne
-(pour récupérer la ligne, soit utiliser la variable dans la portée closure,
-event.target (dans le callback du click): le bouton sur lequel on a cliqué
-)
-- Utiliser removeChild https://developer.mozilla.org/fr/docs/Web/API/Node/removeChild
+function addTodo(todo) {
+  const todoRowElt = document.createElement('div');
 
-Exercice 2 : Ajouter une checkbox toggle all
-- Ajouter une checkbox sur chaque ligne
-- Au clic de la checkbox .todo-toggle
-Cocher ou décocher toutes les checkbox
-todoCheckElt.checked = true (pour cocher), false (pour décocher)
-- Utiliser querySelectorAll pour sélectionner les checkboxes au clic
+  // todoRowElt.innerHTML = `<input type="checkbox">
+  // <span>${todoInputElt.value}</span>
+  // <button class="todo-remove">-</button>`;
 
-Exercice 3 : Au submit du formulaire
-Vérifier avec une regex que le champs contienne au moins 5 charactères parmi lettre, chiffre, espace
-En cas d'erreur utiliser alert('Erreur') ou écrire dans une balise div l'erreur
-*/
+  const checkbox = document.createElement('input');
+  checkbox.type = 'checkbox';
+  checkbox.checked = todo.completed;
+  checkbox.className = 'todo-complete';
+  todoRowElt.appendChild(checkbox);
+
+  const span = document.createElement('span');
+  span.innerText = todo.text;
+  todoRowElt.appendChild(span);
+
+  const buttonMoins = document.createElement('button');
+  buttonMoins.className = 'todo-remove';
+  buttonMoins.innerText = '-';
+  todoRowElt.appendChild(buttonMoins);
+
+  // buttonMoins.addEventListener('click', (event) => {
+  //   // event.target.parentNode.parentNode.removeChild(event.target.parentNode);
+  //   // todoListElt.removeChild(todoRowElt);
+  // });
+
+  prepend(todoListElt, todoRowElt);
+}
+
+
+async function fetchTodos() {
+  const res = await axios.get('http://localhost:3000/api/todos');
+
+  for (const todo of res.data) {
+    addTodo(todo);
+  }
+}
+
+fetchTodos();
