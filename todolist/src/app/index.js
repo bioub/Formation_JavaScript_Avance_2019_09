@@ -12,7 +12,7 @@ const todoToggleElt = document.querySelector('.todo-toggle');
 /** @type {HTMLDivElement} */
 const todoErrorsElt = document.querySelector('.todo-errors');
 
-todoFormElt.addEventListener('submit', (event) => {
+todoFormElt.addEventListener('submit', async (event) => {
   event.preventDefault();
 
   if (!todoInputElt.value.match(/^[\p{Alphabetic}\s]{5,}$/iu)) {
@@ -23,20 +23,20 @@ todoFormElt.addEventListener('submit', (event) => {
   todoErrorsElt.innerText = '';
   // Exercice
   // Coté client : créer avec axios la requete pour insérer la todo
-  // axios.post(url, todo)
+  const res = await axios.post("http://localhost:3000/api/todos", {
+    text: todoInputElt.value,
+    completed: false,
+  })
   // et récupérer la réponse pour l'ajouter au DOM (avec l'id)
   // Vous pourriez créer un attribut data-id au niveau du bouton moins ou
   // de la ligne pour la suppression
 
-  addTodo({
-    text: todoInputElt.value,
-    completed: false,
-  })
+  addTodo(res.data)
 
 });
 
 
-todoListElt.addEventListener('click', (event) => {
+todoListElt.addEventListener('click', async (event) => {
   /** @type {HTMLElement} */
   const clickedElt = event.target;
 
@@ -47,7 +47,9 @@ todoListElt.addEventListener('click', (event) => {
   // Exercice
   // Coté client : créer avec axios la requete pour supprimer la todo
   // axios.delete('http://localhost:3000/api/todos/123')
-
+  const id = clickedElt.parentNode.dataset.id;
+  const res = await axios.delete(`http://localhost:3000/api/todos/${id}`);
+  // TODO faire un message de success
 });
 
 todoToggleElt.addEventListener('click', () => {
@@ -61,6 +63,7 @@ todoToggleElt.addEventListener('click', () => {
 
 function addTodo(todo) {
   const todoRowElt = document.createElement('div');
+  todoRowElt.dataset.id = todo.id;
 
   // todoRowElt.innerHTML = `<input type="checkbox">
   // <span>${todoInputElt.value}</span>

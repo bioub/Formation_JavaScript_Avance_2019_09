@@ -24,6 +24,10 @@ app.get('/api/todos', (req, res) => {
 app.post('/api/todos', express.json(), (req, res) => {
   // {text: 'ABC', completed: false}
   const todo = req.body;
+  todo.id = Math.floor(Math.random() * 100000);
+  todos.push(todo);
+
+  res.json(todo);
   // Exercice
   // Coté serveur : générer un id (Math.random, soit le dernier id + 1)
   // l'ajouter à l'objet (étendre l'objet)
@@ -32,11 +36,21 @@ app.post('/api/todos', express.json(), (req, res) => {
 });
 
 // DELETE http://localhost:3000/api/todos/1
-// DELETE http://localhost:3000/api/todos/2
+// DELETE http://localhost:3000/api/todos/5454
 app.delete('/api/todos/:id', (req, res) => {
   // type string
-  const id = req.params.id;
+  const id = Number(req.params.id);
 
+  const todo = todos.find((t) => t.id === id);
+
+  if (!todo) {
+    // TODO 404
+  }
+
+  const index = todos.indexOf(todo);
+  todos.splice(index, 1);
+
+  res.json(todo);
   // Exercice
   // coté serveur : supprimer du tableau
   // la todo correspondant à cet id (
